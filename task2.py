@@ -15,45 +15,45 @@ print(titanic_data.describe())
 titanic_data['Age'].fillna(titanic_data['Age'].median(), inplace=True)
 titanic_data['Embarked'].fillna('S', inplace=True)
 
-# Create new features
+# Feature Engineering
 titanic_data['FamilySize'] = titanic_data['SibSp'] + titanic_data['Parch'] + 1
 titanic_data['IsAlone'] = 0
 titanic_data.loc[titanic_data['FamilySize'] == 1, 'IsAlone'] = 1
+titanic_data['Title'] = titanic_data['Name'].str.extract(' ([A-Za-z]+)\.', expand=False)
 
 # Explore categorical features
 print(titanic_data['Pclass'].value_counts())
 print(titanic_data['Sex'].value_counts())
 print(titanic_data['Embarked'].value_counts())
+print(titanic_data['Title'].value_counts())
 
 # Visualizations
-# Survival rate
 sns.countplot(x='Survived', data=titanic_data)
 plt.title('Survival Count')
 plt.show()
 
-# Survival by Pclass
 sns.countplot(x='Pclass', hue='Survived', data=titanic_data)
 plt.title('Survival by Pclass')
 plt.show()
 
-# Survival by Sex
 sns.countplot(x='Sex', hue='Survived', data=titanic_data)
 plt.title('Survival by Sex')
 plt.show()
 
-# Survival by Embarked
 sns.countplot(x='Embarked', hue='Survived', data=titanic_data)
 plt.title('Survival by Embarked')
 plt.show()
 
-# Distribution of Age
 sns.histplot(titanic_data['Age'])
 plt.title('Age Distribution')
 plt.show()
 
-# Fare distribution
 sns.histplot(titanic_data['Fare'])
 plt.title('Fare Distribution')
+plt.show()
+
+sns.boxplot(x='Pclass', y='Age', hue='Survived', data=titanic_data)
+plt.title('Age Distribution by Pclass and Survival')
 plt.show()
 
 # Correlation matrix
